@@ -49,7 +49,7 @@ func (p *AuthService) GetAuth(name string) (models.Auth, error) {
 }
 func (p *AuthService) EnsureAuthTable() {
     p.db.AutoMigrate(&models.Auth{})
-    p.db.Model(&models.Auth{}).AddUniqueIndex("idx_auth_code", "code")
+    p.db.Model(&models.Auth{}).AddUniqueIndex("idx_auth_name", "name")
 }
 func (p *AuthService) EnsureAuth(auth models.Auth) {
     existing, err := p.GetAuth(auth.Name)
