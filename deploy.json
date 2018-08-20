@@ -1,0 +1,12 @@
+{
+    "Title": "Skaioskit Auth Service",
+    "Steps": [
+        {
+            "Type": "PrintMessage",
+            "Args": {
+                "message": "message from child deployment"
+            }
+        }
+    ]
+}
+
