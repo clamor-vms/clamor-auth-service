@@ -1,12 +1,16 @@
 {
     "Title": "Skaioskit Auth Service",
-    "Steps": [
-        {
-            "Type": "PrintMessage",
-            "Args": {
-                "Message": "message from child deployment"
-            }
+    "Commands": {
+        "build": {
+            "Requires": [],
+            "Steps": [
+                {
+                    "Type": "PrintMessage",
+                    "Args": {
+                        "Message": "message from child deployment"
+                    }
+                }
+            ]
         }
-    ]
+    }
 }
-
