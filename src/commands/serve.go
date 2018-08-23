@@ -47,12 +47,14 @@ var serveCmd = &cobra.Command{
 
         //build controllers
         aboutController := skaioskit.NewControllerProcessor(controllers.NewAboutController())
-        authController := skaioskit.NewControllerProcessor(controllers.NewAuthController(authService))
+        loginController := skaioskit.NewControllerProcessor(controllers.NewLoginController(authService))
+        userController := skaioskit.NewControllerProcessor(controllers.NewUserController(authService))
 
         //setup routing to controllers
         r := mux.NewRouter()
         r.HandleFunc("/about", aboutController.Logic)
-        r.HandleFunc("/auth", authController.Logic)
+        r.HandleFunc("/login", loginController.Logic)
+        r.HandleFunc("/user", userController.Logic)
 
         //wrap everything behind a jwt middleware
         http.Handle("/", skaioskit.PanicHandler(r))

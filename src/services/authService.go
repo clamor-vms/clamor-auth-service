@@ -42,21 +42,24 @@ func (p *AuthService) UpdateAuth(auth models.Auth) models.Auth {
     p.db.Save(&auth)
     return auth
 }
-func (p *AuthService) GetAuth(name string) (models.Auth, error) {
+func (p *AuthService) GetAuth(email string) (models.Auth, error) {
     var auth models.Auth
-    err := p.db.Where(&models.Auth{Name: name}).First(&auth).Error
+    err := p.db.Where(&models.Auth{Email: email}).First(&auth).Error
     return auth, err
 }
 func (p *AuthService) EnsureAuthTable() {
     p.db.AutoMigrate(&models.Auth{})
-    p.db.Model(&models.Auth{}).AddUniqueIndex("idx_auth_name", "name")
+    p.db.Model(&models.Auth{}).AddUniqueIndex("idx_auth_email", "email")
+
+    //TODO: Fucking remove this.
+    p.CreateAuth(models.Auth{Email: "test@example.com", Password: "password"})
 }
 func (p *AuthService) EnsureAuth(auth models.Auth) {
-    existing, err := p.GetAuth(auth.Name)
+    existing, err := p.GetAuth(auth.Email)
     if err != nil {
         p.CreateAuth(auth)
     } else {
-        existing.Name = auth.Name
+        existing.Password = auth.Password
         p.UpdateAuth(existing)
     }
 }

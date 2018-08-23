@@ -23,23 +23,23 @@ import (
     "skaioskit/services"
 )
 
-type AuthController struct {
+type UserController struct {
     authService services.IAuthService
 }
-func NewAuthController(authService services.IAuthService) *AuthController {
-    return &AuthController{
+func NewUserController(authService services.IAuthService) *UserController {
+    return &UserController{
         authService: authService,
     }
 }
-func (p *AuthController) Get(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
+func (p *UserController) Get(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
     return skaioskit.ControllerResponse{Status: http.StatusNotFound, Body: skaioskit.EmptyResponse{}}
 }
-func (p *AuthController) Post(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
+func (p *UserController) Post(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
     return skaioskit.ControllerResponse{Status: http.StatusNotFound, Body: skaioskit.EmptyResponse{}}
 }
-func (p *AuthController) Put(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
+func (p *UserController) Put(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
     return skaioskit.ControllerResponse{Status: http.StatusNotFound, Body: skaioskit.EmptyResponse{}}
 }
-func (p *AuthController) Delete(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
+func (p *UserController) Delete(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
     return skaioskit.ControllerResponse{Status: http.StatusNotFound, Body: skaioskit.EmptyResponse{}}
 }

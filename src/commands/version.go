@@ -13,18 +13,28 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package controllers
+package commands
 
-type PostLoginRequest struct {
-    Email string
-    Password string
-}
-type PostLoginResponse struct {
-    JWT string
+import (
+    "github.com/spf13/cobra"
+    "github.com/spf13/viper"
+    "github.com/gorilla/mux"
+
+    skaioskit "github.com/nathanmentley/skaioskit-go-core"
+
+    "skaioskit/core"
+)
+
+var versionCmd = &cobra.Command{
+    Use:   "version",
+    Short: "gets the version",
+    Long:  `gets the version`,
+    Run: func(cmd *cobra.Command, args []string) {
+        println("version command")
+    },
 }
 
-type GetAboutResponse struct {
-    CoreVersion string
-    Version string
-    BuildTime string
+//Entry
+func init() {
+    RootCmd.AddCommand(versionCmd)
 }
