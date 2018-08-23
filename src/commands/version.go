@@ -17,12 +17,6 @@ package commands
 
 import (
     "github.com/spf13/cobra"
-    "github.com/spf13/viper"
-    "github.com/gorilla/mux"
-
-    skaioskit "github.com/nathanmentley/skaioskit-go-core"
-
-    "skaioskit/core"
 )
 
 var versionCmd = &cobra.Command{
