@@ -24,6 +24,7 @@ type PostLoginResponse struct {
 }
 
 type GetAboutResponse struct {
+    Name string
     CoreVersion string
     Version string
     BuildTime string
