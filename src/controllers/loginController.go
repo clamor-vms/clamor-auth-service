@@ -16,6 +16,7 @@
 package controllers
 
 import (
+    "os"
     "encoding/json"
     "net/http"
 
@@ -53,7 +54,7 @@ func (l *LoginController) Post(w http.ResponseWriter, r *http.Request) skaioskit
             return skaioskit.ControllerResponse{Status: http.StatusInternalServerError, Body: skaioskit.EmptyResponse{}}
         } else {
             //generate a jwt
-            tokenStr, err := skaioskit.GenerateJWTStr(skaioskit.JWTData{ UserId: user.ID, Email: user.Email }, []byte("foobar"))
+            tokenStr, err := skaioskit.GenerateJWTStr(skaioskit.JWTData{ UserId: user.ID, Email: user.Email }, []byte(os.Getenv("JWT_SECRET")))
 
             if err != nil {
                 //if we error jwt generating we should throw an error.

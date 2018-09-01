@@ -89,6 +89,18 @@
             "Requires": ["build"],
             "Steps": [
                 {
+                    "Type": "EnsureSecret",
+                    "Args": {
+                        "Key": "skaioskit-auth-service-mysql-password"
+                    }
+                },
+                {
+                    "Type": "EnsureSecret",
+                    "Args": {
+                        "Key": "skaioskit-auth-service-mysql-root-password"
+                    }
+                },
+                {
                     "Type": "CopyFile",
                     "Args": {
                         "Source": "k8s/deployment.template.yaml",

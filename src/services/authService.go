@@ -51,7 +51,7 @@ func (p *AuthService) EnsureAuthTable() {
     p.db.AutoMigrate(&models.Auth{})
     p.db.Model(&models.Auth{}).AddUniqueIndex("idx_auth_email", "email")
 
-    //TODO: Fucking remove this.
+    //TODO: Remove this at some point and setup initial seed data in some better way.
     p.CreateAuth(models.Auth{Email: "test@example.com", Password: "password"})
 }
 func (p *AuthService) EnsureAuth(auth models.Auth) {
