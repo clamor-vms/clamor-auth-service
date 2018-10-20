@@ -20,9 +20,9 @@ import (
     "encoding/json"
     "net/http"
 
-    skaioskit "github.com/nathanmentley/skaioskit-go-core"
+    clamor "github.com/clamor-vms/clamor-go-core"
 
-    "skaioskit/services"
+    "clamor/services"
 )
 
 //Login Controller
@@ -33,10 +33,10 @@ func NewLoginController(authService services.IAuthService) *LoginController {
     return &LoginController{authService: authService}
 }
 
-func (l *LoginController) Get(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
-    return skaioskit.ControllerResponse{Status: http.StatusNotFound, Body: skaioskit.EmptyResponse{}}
+func (l *LoginController) Get(w http.ResponseWriter, r *http.Request) clamor.ControllerResponse {
+    return clamor.ControllerResponse{Status: http.StatusNotFound, Body: clamor.EmptyResponse{}}
 }
-func (l *LoginController) Post(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
+func (l *LoginController) Post(w http.ResponseWriter, r *http.Request) clamor.ControllerResponse {
     //Parse request into struct
     decoder := json.NewDecoder(r.Body)
     var data PostLoginRequest
@@ -44,31 +44,31 @@ func (l *LoginController) Post(w http.ResponseWriter, r *http.Request) skaioskit
 
     if err != nil {
         //if json doesn't map to struct return error
-        return skaioskit.ControllerResponse{Status: http.StatusInternalServerError, Body: skaioskit.EmptyResponse{}}
+        return clamor.ControllerResponse{Status: http.StatusInternalServerError, Body: clamor.EmptyResponse{}}
     } else {
         //check if the username / password match
         user, err := l.authService.GetAuth(data.Email)
 
         if(err != nil || user.Password != data.Password) {
             //If not return an error
-            return skaioskit.ControllerResponse{Status: http.StatusInternalServerError, Body: skaioskit.EmptyResponse{}}
+            return clamor.ControllerResponse{Status: http.StatusInternalServerError, Body: clamor.EmptyResponse{}}
         } else {
             //generate a jwt
-            tokenStr, err := skaioskit.GenerateJWTStr(skaioskit.JWTData{ UserId: user.ID, Email: user.Email }, []byte(os.Getenv("JWT_SECRET")))
+            tokenStr, err := clamor.GenerateJWTStr(clamor.JWTData{ UserId: user.ID, Email: user.Email }, []byte(os.Getenv("JWT_SECRET")))
 
             if err != nil {
                 //if we error jwt generating we should throw an error.
-                return skaioskit.ControllerResponse{Status: http.StatusInternalServerError, Body: skaioskit.EmptyResponse{}}
+                return clamor.ControllerResponse{Status: http.StatusInternalServerError, Body: clamor.EmptyResponse{}}
             } else {
                 //and there was much rejoicing
-                return skaioskit.ControllerResponse{Status: http.StatusOK, Body: PostLoginResponse{JWT: tokenStr}}
+                return clamor.ControllerResponse{Status: http.StatusOK, Body: PostLoginResponse{JWT: tokenStr}}
             }
         }
     }
 }
-func (l *LoginController) Put(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
-    return skaioskit.ControllerResponse{Status: http.StatusNotFound, Body: skaioskit.EmptyResponse{}}
+func (l *LoginController) Put(w http.ResponseWriter, r *http.Request) clamor.ControllerResponse {
+    return clamor.ControllerResponse{Status: http.StatusNotFound, Body: clamor.EmptyResponse{}}
 }
-func (l *LoginController) Delete(w http.ResponseWriter, r *http.Request) skaioskit.ControllerResponse {
-    return skaioskit.ControllerResponse{Status: http.StatusNotFound, Body: skaioskit.EmptyResponse{}}
+func (l *LoginController) Delete(w http.ResponseWriter, r *http.Request) clamor.ControllerResponse {
+    return clamor.ControllerResponse{Status: http.StatusNotFound, Body: clamor.EmptyResponse{}}
 }

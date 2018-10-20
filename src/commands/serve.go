@@ -24,11 +24,11 @@ import (
     "github.com/jinzhu/gorm"
     _ "github.com/jinzhu/gorm/dialects/mysql"
 
-    skaioskit "github.com/nathanmentley/skaioskit-go-core"
+    clamor "github.com/clamor-vms/clamor-go-core"
 
-    "skaioskit/core"
-    "skaioskit/services"
-    "skaioskit/controllers"
+    "clamor/core"
+    "clamor/services"
+    "clamor/controllers"
 )
 
 var serveCmd = &cobra.Command{
@@ -37,7 +37,7 @@ var serveCmd = &cobra.Command{
     Long:  `runs the rest api`,
     Run: func(cmd *cobra.Command, args []string) {
         //setup db connection
-        conStr := skaioskit.BuildMySqlConnectionString(core.DATABASE_USER, os.Getenv("MYSQL_PASSWORD"), core.DATABASE_HOST, core.DATABASE_NAME)
+        conStr := clamor.BuildMySqlConnectionString(core.DATABASE_USER, os.Getenv("MYSQL_PASSWORD"), core.DATABASE_HOST, core.DATABASE_NAME)
         db, err := gorm.Open("mysql", conStr)
         if err != nil {
             panic(err)
@@ -51,9 +51,9 @@ var serveCmd = &cobra.Command{
         authService.EnsureAuthTable()
 
         //build controllers
-        aboutController := skaioskit.NewControllerProcessor(controllers.NewAboutController())
-        loginController := skaioskit.NewControllerProcessor(controllers.NewLoginController(authService))
-        userController := skaioskit.NewControllerProcessor(controllers.NewUserController(authService))
+        aboutController := clamor.NewControllerProcessor(controllers.NewAboutController())
+        loginController := clamor.NewControllerProcessor(controllers.NewLoginController(authService))
+        userController := clamor.NewControllerProcessor(controllers.NewUserController(authService))
 
         //setup routing to controllers
         r := mux.NewRouter()
@@ -62,7 +62,7 @@ var serveCmd = &cobra.Command{
         r.HandleFunc("/user", userController.Logic)
 
         //wrap everything behind a jwt middleware
-        http.Handle("/", skaioskit.PanicHandler(r))
+        http.Handle("/", clamor.PanicHandler(r))
 
         //server up app
         if err := http.ListenAndServe(":" + core.PORT_NUMBER, nil); err != nil {

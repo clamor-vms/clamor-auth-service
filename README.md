@@ -1,1 +1,1 @@
-# skaioskit-auth-service
+# clamor-auth-service
