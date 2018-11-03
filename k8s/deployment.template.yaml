@@ -72,7 +72,7 @@ spec:
     spec:
       containers:
       - name: auth-service
-        image: localhost:5000/clamor/auth-service:latest
+        image: ${DOCKER_REG}/clamor/auth-service:latest
         imagePullPolicy: Always
         command: 
         - /auth
